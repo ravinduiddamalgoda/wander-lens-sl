@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import { Menu,Calendar, Star, Users, MapPin, X, Mail, Phone, User, ChevronDown, ChevronUp, Twitter, Youtube, Instagram, Facebook, Camera, MessageCircle, Clock, Send } from 'lucide-react';
+import { Menu,Calendar, Star, Users, MapPin, X, Mail, Phone, User, ChevronDown, ChevronUp, Twitter, Youtube, Instagram, Facebook, Camera, MessageCircle, Clock, Send, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface TourPackage {
   title: string;
@@ -420,7 +420,7 @@ const HeroSection = () => {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/img/background-main.png')",
+          backgroundImage: "url('/img/background-main.jpg')",
         }}
       >
         <div className="absolute inset-0 bg-black/40"></div>
@@ -435,13 +435,11 @@ const HeroSection = () => {
               Destinations
             </span>{" "}
             with Our Travel
-            <br />
-            Package
+            Packages
           </h1>
           <p className="text-lg md:text-xl mb-8 text-gray-200 max-w-2xl mx-auto">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            varius enim in eros elementum tristique. Duis cursus, mi quis
-            viverra ornare.
+            “Focus Your Wanderlust.” <br/>
+A clever blend of photography and travel, this tagline positions your brand as the perfect focal point for adventure.
           </p>
           <button className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-2xl transition-all transform hover:scale-105">
             Start Your Journey
@@ -462,88 +460,260 @@ const HeroSection = () => {
 };
 
 // Top Destinations Component
+// Top Destinations Component
 const TopDestinations = () => {
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+
   const destinations = [
     {
       name: "Sigiriya",
       location: "DAMBULLA",
-      image:
-        "/img/topDestication/sigiriya.png",
+      image: "/img/topDestication/sigiriya.png",
     },
     {
       name: "Nine Arch",
       location: "ELLA",
-      image:
-        "/img/topDestication/nine-arch.jpg",
+      image: "/img/topDestication/nine-arch.jpg",
     },
     {
       name: "Yala National Park",
       location: "KATHARAGAMA",
-      image:
-        "/img/topDestication/yala.jpg",
+      image: "/img/topDestication/yala.jpg",
     },
     {
       name: "Hikkaduwa Beach",
       location: "GALLE",
-      image:
-        "/img/topDestication/Hikkaduwa.jpg",
+      image: "/img/topDestication/Hikkaduwa.jpg",
+    },
+    {
+      name: "Adam's Peak",
+      location: "RATNAPURA",
+      image: "/img/moreDestinations/adams_peak.jpg",
+    },
+    {
+      name: "Pasikuda Beach",
+      location: "PASIKUDA",
+      image: "/img/topDestication/pasikuda.png",
+    },
+    {
+      name: "Jungle Beach",
+      location: "GALLE",
+      image: "/img/topDestication/jungle_beach.png",
+    },
+    {
+      name: "Mirissa Beach",
+      location: "MATARA",
+      image: "/img/topDestication/mirissa.jpg",
+    },
+    {
+      name: "Horton Plains",
+      location: "NUWARA ELIYA",
+      image: "/img/topDestication/horton_plains.jpg",
+    },
+    {
+      name: "Polonnaruwa",
+      location: "POLONNARUWA",
+      image: "/img/topDestication/polonnaruwa.jpg",
     },
   ];
 
-  return (
-    <section className="relative py-32 min-h-screen bg-center bg-cover bg-no-repeat mt-20" id="destinations">
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url('/img/top-destination-background.jpg')",
-        }}
-      >
-        <div className="absolute inset-0 bg-black/1"></div>
-      </div>
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="w-full h-full bg-gradient-to-b from-transparent to-white" />
-      </div>
+  // Auto-slide functionality
+  useEffect(() => {
+    if (!isHovered) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => 
+          prevIndex >= destinations.length - 4 ? 0 : prevIndex + 1
+        );
+      }, 3000);
 
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-20 relative">
+      return () => clearInterval(interval);
+    }
+  }, [isHovered, destinations.length]);
+
+  // Get visible destinations (4 at a time)
+  const getVisibleDestinations = () => {
+    const visible = [];
+    for (let i = 0; i < 4; i++) {
+      const index = (currentIndex + i) % destinations.length;
+      visible.push(destinations[index]);
+    }
+    return visible;
+  };
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex >= destinations.length - 4 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex <= 0 ? destinations.length - 4 : prevIndex - 1
+    );
+  };
+
+  return (
+    <>
+      <style>{`
+        .destinations-container::-webkit-scrollbar {
+          height: 8px;
+        }
+        .destinations-container::-webkit-scrollbar-track {
+          background: #f1f5f9;
+          border-radius: 10px;
+        }
+        .destinations-container::-webkit-scrollbar-thumb {
+          background: linear-gradient(to right, #fbbf24, #f59e0b);
+          border-radius: 10px;
+        }
+      `}</style>
+      
+      <section 
+        className="relative py-32 min-h-screen bg-center bg-cover bg-no-repeat mt-20" 
+        id="destinations"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: "url('/img/top-destination-background.jpg')",
+          }}
+        >
+          <div className="absolute inset-0 bg-black/1"></div>
+        </div>
+        <div className="absolute inset-0 pointer-events-none">
+      <div className="w-full h-full bg-gradient-to-b from-transparent via-transparent to-white" 
+          style={{ 
+            background: 'linear-gradient(to bottom, transparent 0%, transparent 75%, white 100%)' 
+          }} />
+    </div>
+
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-20 relative">
           <h2 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6">
-            <span className="text-yellow-300 bg-gradient-to-r tracking-wide drop-shadow">
+            <span className="text-orange-500 font-bold text-xxl drop-shadow-lg tracking-wide bg-gradient-to-r from-black/10 via-transparent to-black/10 px-10 rounded">
               Top
             </span>
             <br />
-            <span className="text-gray-100 tracking-wide drop-shadow">destinations</span>
+            <span className="text-white font-bold text-xxl drop-shadow-lg tracking-wide bg-gradient-to-r from-black/10 via-transparent to-black/10 px-2 rounded">
+            destinations
+            </span>
           </h2>
-          <p className="text-gray-200 drop-shadow-lg max-w-3xl mx-auto text-xl md:text-2xl leading-relaxed font-medium">
+          {/* <p className="text-gray-200 drop-shadow-lg max-w-3xl mx-auto text-xxl md:text-2xl leading-relaxed font-medium  tracking-wide bg-gradient-to-b from-black/10 via-transparent to-black/10 px-30 rounded">
             It's hard enough deciding to move, you don't have to worry about
             where to move to. These are some of the most popular and best
             locations to move to based on a number of factors.
-          </p>
-        </div>
+          </p> */}
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {destinations.map((dest, index) => (
-            <div key={index} className="group cursor-pointer">
-              <div className="relative overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
-                <img
-                  src={dest.image}
-                  alt={dest.name}
-                  className="w-full h-96 md:h-[28rem] object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                <div className="absolute bottom-6 left-6 text-white">
-                  <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white">
-                    {dest.name}
-                  </h3>
-                  <p className="text-lg md:text-xl text-gray-100 font-semibold tracking-wide">
-                    {dest.location}
-                  </p>
+          {/* Desktop View - Auto Sliding Cards */}
+          <div className="hidden lg:block relative">
+            <div className="grid grid-cols-4 gap-8 transition-all duration-700 ease-in-out">
+              {getVisibleDestinations().map((dest, index) => (
+                <div key={`${dest.name}-${currentIndex}-${index}`} className="group cursor-pointer">
+                  <div className="relative overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                    <img
+                      src={dest.image}
+                      alt={dest.name}
+                      className="w-full h-96 md:h-[28rem] object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    <div className="absolute top-1/2 left-6 text-white">
+                      <h3 className="text-3xl md:text-4xl font-bold mb-2 text-white drop-shadow-lg">
+                        {dest.name}
+                      </h3>
+                      <p className="text-lg md:text-xl text-gray-100 font-semibold tracking-wide drop-shadow">
+                        {dest.location}
+                      </p>
+                    </div>
+                  </div>
                 </div>
+              ))}
+            </div>
+
+            {/* Navigation Arrows */}
+            <button
+              onClick={prevSlide}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-10"
+            >
+              <ChevronRight size={24} />
+            </button>
+
+            {/* Slide Indicators */}
+            <div className="flex justify-center mt-8 space-x-2">
+              {Array.from({ length: destinations.length - 3 }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    currentIndex === index
+                      ? 'bg-yellow-300 scale-125'
+                      : 'bg-white/50 hover:bg-white/75'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile/Tablet View - Horizontal Scroll */}
+          <div className="block lg:hidden">
+            <div className="overflow-x-auto pb-6 destinations-container">
+              <div className="flex gap-6 px-4 min-w-max">
+                {destinations.map((dest, index) => (
+                  <div key={index} className="group cursor-pointer flex-shrink-0 w-80">
+                    <div className="relative overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                      <img
+                        src={dest.image}
+                        alt={dest.name}
+                        className="w-full h-96 object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                      <div className="absolute bottom-6 left-6 text-white">
+                        <h3 className="text-2xl md:text-3xl font-bold mb-2 text-white drop-shadow-lg">
+                          {dest.name}
+                        </h3>
+                        <p className="text-lg text-gray-100 font-semibold tracking-wide drop-shadow">
+                          {dest.location}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
+
+            {/* Mobile scroll indicator */}
+            <div className="flex justify-center mt-6">
+              <div className="bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg">
+                <p className="text-sm text-gray-600 flex items-center font-medium">
+                  <span className="mr-2 text-yellow-500">←</span>
+                  Scroll to explore more destinations
+                  <span className="ml-2 text-yellow-500">→</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Auto-slide info */}
+          {/* <div className="hidden lg:flex justify-center mt-8">
+            <div className="bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 text-white">
+              <p className="text-sm flex items-center">
+                <div className="w-2 h-2 bg-yellow-300 rounded-full mr-2 animate-pulse"></div>
+                Auto-sliding every 3 seconds • Hover to pause
+              </p>
+            </div>
+          </div> */}
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
@@ -564,10 +734,10 @@ const TourPackages: React.FC = () => {
     {
       title: "12 Days Nature & Wildlife Tour",
       location: "SRI LANKA",
-      price: "2,850",
-      originalPrice: "3,200",
+      price: "999",
+      originalPrice: "1,700",
       days: 12,
-      people: "2+ People Going",
+      people: "Per Two People",
       rating: 5,
       description: "Experience the ultimate Sri Lankan adventure with our comprehensive 12-day nature and wildlife tour. Journey through pristine national parks, ancient mountain ranges, and stunning landscapes while encountering diverse wildlife including elephants, leopards, and exotic birds.",
       highlights: [
@@ -599,10 +769,10 @@ const TourPackages: React.FC = () => {
     {
       title: "10 Days Cultural Heritage Tour", 
       location: "SRI LANKA",
-      price: "2,350",
-      originalPrice: "2,800",
+      price: "999",
+      originalPrice: "1,700",
       days: 10,
-      people: "2+ People Going",
+      people: "Per Two People",
       rating: 5,
       description: "Immerse yourself in Sri Lanka's rich cultural heritage with this comprehensive journey through ancient kingdoms, sacred temples, and historical sites. Perfect for history enthusiasts and culture lovers seeking authentic experiences.",
       highlights: [
@@ -628,73 +798,135 @@ const TourPackages: React.FC = () => {
       ],
       image: "img/packages/perahara.png",
     },
+      {
+    "title": "Beach Relaxation Tour",
+    "location": "SRI LANKA",
+    "price": "1,340",
+    "originalPrice": "1,780",
+    "days": 15,
+    "people": "Per Two People",
+    "rating": 5,
+    "description": "Unwind and rejuvenate on the stunning beaches of Sri Lanka with our Beach Relaxation Tour. Enjoy sun-soaked days, luxurious resorts, and the soothing sounds of the ocean as you escape the hustle and bustle of everyday life.",
+    "highlights": [
+      "Nilaveli Beach",
+      "Uppuveli Beach",
+      "Arugambay Beach",
+      "Hiriketiya Beach",
+      "Hikkaduwa Beach"
+    ],
+    "itinerary": [
+      "Day 1: Arrival transfer to Negombo",
+      "Day 2: Negombo to Trincomalee",
+      "Day 3: Trincomalee Exploration",
+      "Day 4: Trincomalee - Sigiriya",
+      "Day 5: Sigiriya - Kandy",
+      "Day 6: Kandy - Nuwara Eliya",
+      "Day 7: Nuwara Eliya - Ella",
+      "Day 8: Ella",
+      "Day 9: Ella - Arugambay",
+      "Day 10: Arugambay",
+      "Day 11: Arugambay - Tangalle",
+      "Day 12: Tangalle - Mirissa",
+      "Day 13: Mirissa - Hikkaduwa",
+      "Day 14: Hikkaduwa - Bentota",
+      "Day 15: Departure from Airport"
+    ],
+    "image": "img/topDestication/Hikkaduwa.jpg"
+  },
+   {
+  "title": "14 Days Complete Sri Lanka Experience",
+  "location": "SRI LANKA",
+  "price": "1330",
+  "originalPrice": "1700",
+  "days": 14,
+  "people": "Per Two People",
+  "rating": 5,
+  "description": "The ultimate Sri Lankan experience combining culture, nature, wildlife, and beaches. This comprehensive tour covers all major attractions from ancient cities to tropical beaches, wildlife safaris to mountain landscapes.",
+  "highlights": [
+    "Wilpattu National Park Safari (Leopard)",
+    "Habarana Eco Park Safari (Elephant)",
+    "Sigiriya Rock Fortress",
+    "Ceylon Spices Garden Experience",
+    "Kandy Temple of the Tooth",
+    "Nuwara Eliya Tea Plantation",
+    "Horton Plains",
+    "Ella Scenic Exploration",
+    "Hiriketiya Beach",
+    "Galle Fort",
+    "Bentota River Safari"
+  ],
+  "itinerary": [
+    "Day 1: Arrival transfer to Negombo",
+    "Day 2: Negombo - Wilpattu",
+    "Day 3: Wilpattu - Habarana",
+    "Day 4: Habarana - Sigiriya",
+    "Day 5: Sigiriya - Kandy",
+    "Day 6: Kandy - Nuwara Eliya",
+    "Day 7: Horton Plains",
+    "Day 8: Nuwara Eliya - Ella",
+    "Day 9: Ella - Tangalle",
+    "Day 10: Tangalle",
+    "Day 11: Tangalle - Galle",
+    "Day 12: Galle - Bentota",
+    "Day 13: Bentota - Colombo",
+    "Day 14: Departure from Airport"
+  ],
+  "image": "img/packages/beach.jpg"
+},
+
     {
-      title: "14 Days Complete Sri Lanka Experience",
-      location: "SRI LANKA", 
-      price: "3,450",
-      originalPrice: "4,000",
-      days: 14,
-      people: "2+ People Going",
-      rating: 5,
-      description: "The ultimate Sri Lankan experience combining culture, nature, wildlife, and beaches. This comprehensive tour covers all major attractions from ancient cities to tropical beaches, wildlife safaris to mountain landscapes.",
-      highlights: [
-        "Negombo Beach Resort",
-        "Wilpattu National Park Safari", 
-        "Culpottu Village Experience",
-        "Habarana Cultural Triangle",
-        "Kandy Sacred City",
-        "Nuwara Eliya Hill Country",
-        "Ella Scenic Beauty",
-        "Tangalle Beach Paradise",
-        "Bentota Water Sports"
+      "title": "Premium Safari Experience",
+      "location": "SRI LANKA",
+      "price": "980",
+      "originalPrice": "1,350",
+      "days": 8,
+      "people": "Per Two People",
+      "rating": 5,
+      "description": "Experience Sri Lanka's incredible wildlife with our premium safari package. From elephants to leopards and exotic birds, witness amazing biodiversity across the island’s top national parks with guided safaris and unique encounters.",
+      "highlights": [
+        "Wilpattu National Park Leopard Safari",
+        "Habarana Eco Park Elephant Safari",
+        "Minneriya National Park Bears, Leopard and Birds Safari",
+        "Pinnawala Elephant Orphanage"
       ],
-      itinerary: [
-        "Day 1: Arrival Transfer to Negombo",
-        "Day 2: Negombo - Wilpattu Safari",
-        "Day 3: Wilpattu - Culpottu Village", 
-        "Day 4: Culpottu - Habarana",
-        "Day 5: Habarana Cultural Sites",
-        "Day 6: Habarana - Kandy",
-        "Day 7: Kandy Temple & Gardens",
-        "Day 8: Kandy - Nuwara Eliya",
-        "Day 9: Nuwara Eliya Tea Country",
-        "Day 10: Nuwara Eliya - Ella",
-        "Day 11: Ella Scenic Exploration", 
-        "Day 12: Ella - Tangalle Beach",
-        "Day 13: Tangalle - Bentota",
-        "Day 14: Departure from Airport"
+      "itinerary": [
+        "Day 1: Arrival transfer to Negombo",
+        "Day 2: Negombo - Wilpattu",
+        "Day 3: Wilpattu - Habarana",
+        "Day 4: Habarana - Sigiriya",
+        "Day 5: Sigiriya - Minneriya",
+        "Day 6: Sigiriya - Dambulla - Kandy",
+        "Day 7: Kandy - Pinnawala - Negombo",
+        "Day 8: Departure from Airport"
       ],
-      image: "img/packages/beach.jpg",
-    },
+      "image": "/img/packages/yala.png"
+    },  
+
     {
-      title: "Premium Safari Experience",
-      location: "SRI LANKA", 
-      price: "1,850",
-      originalPrice: "2,200",
-      days: 6,
-      people: "2+ People Going",
-      rating: 5,
-      description: "Experience Sri Lanka's incredible wildlife with our premium safari package. From elephants to leopards, witness amazing biodiversity across the island's most famous national parks and enjoy unique river safari experiences.",
-      highlights: [
-        "Yala National Park Leopard Safari",
-        "Minneriya Elephant Gathering", 
-        "Udawalawe National Park Safari",
-        "Wilpattu National Park Safari",
-        "Madu River Boat Safari",
-        "Bentota River Experience",
-        "Crocodile Watching Safari"
-      ],
-      itinerary: [
-        "Day 1: Arrival & Transfer to Yala",
-        "Day 2: Yala National Park Safari",
-        "Day 3: Yala to Udawalawe Safari", 
-        "Day 4: Minneriya Elephant Safari",
-        "Day 5: Bentota River Safari",
-        "Day 6: Departure from Colombo"
-      ],
-      image: "/img/packages/yala-pkj.jpg",
-    },
-  ];
+    "title": "Southern Delights Tour",
+    "location": "SRI LANKA",
+    "price": "420",
+    "originalPrice": "630",
+    "days": 5,
+    "people": "Per Two People",
+    "rating": 5,
+    "description": "Discover the serene beauty of southern Sri Lanka with our Southern Delights Tour. Explore tranquil beaches, colonial history, and coastal charm across Tangalle, Mirissa, Unawatuna, and the iconic Galle Fort.",
+    "highlights": [
+      "Hiriketiya Beach",
+      "Mirissa Beach",
+      "Unawatuna Beach",
+      "Galle Fort"
+    ],
+    "itinerary": [
+      "Day 1: Arrival transfer to Colombo",
+      "Day 2: Colombo - Tangalle",
+      "Day 3: Tangalle - Mirissa",
+      "Day 4: Mirissa - Galle",
+      "Day 5: Departure from Airport"
+    ],
+    "image": "img/moreDestinations/galle-fort.jpg"
+  }
+];
 
   const toggleItinerary = (index: number): void => {
     setExpandedItinerary(prev => ({
@@ -784,6 +1016,7 @@ const TourPackages: React.FC = () => {
               wildlife safaris, and breathtaking natural landscapes. Each journey is crafted with detailed itineraries 
               for unforgettable experiences.
             </p>
+            
           </div>
 
           {/* Horizontal scrolling layout */}
@@ -899,17 +1132,9 @@ const TourPackages: React.FC = () => {
               </div>
             ))}
             </div>
-            
-            {/* Scroll indicator */}
-            <div className="flex justify-center mt-6">
-              <div className="bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg">
-                <p className="text-sm text-gray-600 flex items-center font-medium">
-                  <span className="mr-2 text-orange-500">←</span>
-                  Scroll horizontally to view more packages
-                  <span className="ml-2 text-orange-500">→</span>
-                </p>
-              </div>
-            </div>
+          </div>
+          <div>
+
           </div>
         </div>
       </section>
@@ -1087,6 +1312,153 @@ const TourPackages: React.FC = () => {
       )}
     </div>
     </>
+  );
+}
+
+const PackagesServices : React.FC = () => {
+  const includes = [
+    {
+      icon: "✈️",
+      title: "Airport Meet & Assistance",
+      description: "Personalized welcome at Colombo International Airport with dedicated assistance"
+    },
+    {
+      icon: "🚗",
+      title: "Air-Conditioned Transportation",
+      description: "Comfortable vehicle with professional driver throughout your journey"
+    },
+    {
+      icon: "⛽",
+      title: "All Fuel Expenses",
+      description: "Complete fuel costs covered for your entire tour duration"
+    },
+    {
+      icon: "🎫",
+      title: "Entrance Fees & Tickets",
+      description: "All attraction tickets and entrance fees as per itinerary included"
+    }
+  ];
+
+  const excludes = [
+    {
+      icon: "✈️",
+      title: "International Flights",
+      description: "Air ticket expenses from your country to Sri Lanka and return journey"
+    },
+    {
+      icon: "🏨",
+      title: "Accommodation & Meals",
+      description: "Hotel reservations and meal expenses during the tour"
+    },
+    {
+      icon: "💰",
+      title: "Tips & Gratuities",
+      description: "Tips for service staff, guides, and drivers"
+    }
+  ];
+
+  return (
+    <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-orange-50">
+      <div className="container mx-auto px-6">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-6">
+            What's{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">
+              Included
+            </span>{" "}
+            & Excluded
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Transparent pricing with clear breakdown of what's covered in your tour package 
+            and what additional expenses you should plan for.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
+          {/* What's Included */}
+          <div className="bg-white rounded-3xl shadow-xl p-8 border border-green-100">
+            <div className="flex items-center mb-8">
+              <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mr-4">
+                <span className="text-white text-2xl">✓</span>
+              </div>
+              <h3 className="text-3xl font-bold text-gray-800">Tour Price Includes</h3>
+            </div>
+            
+            <div className="space-y-6">
+              {includes.map((item, index) => (
+                <div key={index} className="flex items-start group hover:bg-green-50 p-4 rounded-2xl transition-all duration-300">
+                  <div className="text-3xl mr-4 group-hover:scale-110 transition-transform duration-300">
+                    {item.icon}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-xl font-semibold text-gray-800 mb-2">{item.title}</h4>
+                    <p className="text-gray-600 leading-relaxed">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 p-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-200">
+              <p className="text-green-700 font-semibold text-center">
+                💡 All essential tour services are covered for a hassle-free experience!
+              </p>
+            </div>
+          </div>
+
+          {/* What's Excluded */}
+          <div className="bg-white rounded-3xl shadow-xl p-8 border border-orange-100">
+            <div className="flex items-center mb-8">
+              <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center mr-4">
+                <span className="text-white text-2xl">!</span>
+              </div>
+              <h3 className="text-3xl font-bold text-gray-800">Tour Price Excludes</h3>
+            </div>
+            
+            <div className="space-y-6">
+              {excludes.map((item, index) => (
+                <div key={index} className="flex items-start group hover:bg-orange-50 p-4 rounded-2xl transition-all duration-300">
+                  <div className="text-3xl mr-4 group-hover:scale-110 transition-transform duration-300">
+                    {item.icon}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-xl font-semibold text-gray-800 mb-2">{item.title}</h4>
+                    <p className="text-gray-600 leading-relaxed">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 p-6 bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl border border-orange-200">
+              <p className="text-orange-700 font-semibold text-center">
+                💡 Plan these additional expenses for your complete Sri Lankan adventure!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Call to Action */}
+        <div className="text-center mt-16">
+          <div className="bg-white rounded-3xl shadow-xl p-8 max-w-4xl mx-auto border border-gray-100">
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+              Ready to Start Your Sri Lankan Adventure?
+            </h3>
+            <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
+              Get in touch with us for personalized tour packages and detailed pricing information 
+              tailored to your preferences and budget.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="bg-gradient-to-r from-orange-500 to-red-600 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
+                Get Custom Quote
+              </button>
+              {/* <button className="border-2 border-orange-500 text-orange-600 px-8 py-4 rounded-full hover:bg-orange-500 hover:text-white transition-all duration-300 font-semibold text-lg" onClick={openContactModal} >
+                Contact Us
+              </button> */}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1483,7 +1855,12 @@ const Gallery: React.FC = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="bg-gradient-to-r from-teal-500 to-blue-600 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
+            <button
+              className="bg-gradient-to-r from-teal-500 to-blue-600 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-semibold text-lg"
+              onClick={() => {
+                window.location.hash = "destinations";
+              }}
+            >
               Book Your Adventure
             </button>
             <button className="border-2 border-teal-500 text-teal-600 px-8 py-4 rounded-full hover:bg-teal-500 hover:text-white transition-all duration-300 font-semibold text-lg">
@@ -1495,7 +1872,7 @@ const Gallery: React.FC = () => {
         {/* Statistics */}
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <h3 className="text-3xl font-bold text-teal-600 mb-2">500+</h3>
+            <h3 className="text-3xl font-bold text-teal-600 mb-2">1000+</h3>
             <p className="text-gray-600">Photos Captured</p>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-lg">
@@ -1503,11 +1880,11 @@ const Gallery: React.FC = () => {
             <p className="text-gray-600">Happy Memories</p>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <h3 className="text-3xl font-bold text-teal-600 mb-2">25+</h3>
+            <h3 className="text-3xl font-bold text-teal-600 mb-2">30+</h3>
             <p className="text-gray-600">Locations Visited</p>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <h3 className="text-3xl font-bold text-teal-600 mb-2">300+</h3>
+            <h3 className="text-3xl font-bold text-teal-600 mb-2">50+</h3>
             <p className="text-gray-600">Tour Groups</p>
           </div>
         </div>
@@ -1678,8 +2055,8 @@ const Reviews: React.FC = () => {
       tourPackage: "12 Days Nature & Wildlife Tour",
       text: "Absolutely breathtaking experience! The Knuckles Mountain Range was incredible, and seeing elephants at Udawalawe was magical. Our guide was knowledgeable and the accommodations were perfect. Sri Lanka exceeded all expectations!",
       rating: 5,
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b47c?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      tourImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      avatar: "https://images.unsplash.com/photo-1501594907352-0f8b1c3d4c5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+      tourImage: "/img/gallery/6.jpg",
       date: "March 2025",
       verified: true
     },
@@ -1691,7 +2068,7 @@ const Reviews: React.FC = () => {
       text: "The cultural tour was phenomenal! Sigiriya Rock Fortress at sunrise was unforgettable. The ancient cities of Anuradhapura and Polonnaruwa were fascinating. Great value for money and excellent organization throughout.",
       rating: 5,
       avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      tourImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      tourImage: "/img/gallery/10.jpg",
       date: "February 2025",
       verified: true
     },
@@ -1703,7 +2080,7 @@ const Reviews: React.FC = () => {
       text: "This comprehensive tour covered everything! From wildlife safaris to beach relaxation in Bentota. The tea plantations in Nuwara Eliya were stunning. Professional team and seamless planning made this trip memorable.",
       rating: 5,
       avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      tourImage: "https://images.unsplash.com/photo-1566552881560-0be862a7c445?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      tourImage: "/img/gallery/12.jpg",
       date: "January 2025",
       verified: true
     },
@@ -1715,46 +2092,46 @@ const Reviews: React.FC = () => {
       text: "Incredible safari experience! We spotted leopards at Yala National Park and the elephant gathering at Minneriya was spectacular. The river safari at Bentota was a perfect end to our adventure. Highly recommended!",
       rating: 5,
       avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      tourImage: "https://images.unsplash.com/photo-1549366021-9f761d040a94?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      tourImage: "/img/gallery/13.jpg",
       date: "March 2025",
       verified: true
     },
-    {
-      id: 5,
-      name: "Lisa Thompson",
-      location: "Vancouver, Canada",
-      tourPackage: "12 Days Nature & Wildlife Tour",
-      text: "Amazing honeymoon trip! Adam's Peak hike was challenging but rewarding. The Nine Arch Bridge in Ella was picture-perfect. Whale watching in Mirissa was the highlight. Thank you for making our special trip unforgettable!",
-      rating: 5,
-      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      tourImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-      date: "February 2025",
-      verified: true
-    },
-    {
-      id: 6,
-      name: "David Brown",
-      location: "Manchester, UK",
-      tourPackage: "10 Days Cultural Heritage Tour",
-      text: "Excellent cultural immersion! The Temple of the Tooth in Kandy was deeply spiritual. Dambulla Cave Temple's ancient paintings were mesmerizing. Our guide's knowledge of Sri Lankan history enriched every visit.",
-      rating: 5,
-      avatar: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      tourImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-      date: "January 2025",
-      verified: true
-    },
-    {
-      id: 7,
-      name: "Anna Schmidt",
-      location: "Berlin, Germany",
-      tourPackage: "14 Days Complete Experience",
-      text: "Perfectly planned adventure! Every destination was unique - from the wild beauty of Wilpattu to the golden beaches of Tangalle. The local cuisine experiences were delightful. Will definitely return to Sri Lanka!",
-      rating: 5,
-      avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      tourImage: "https://images.unsplash.com/photo-1566552881560-0be862a7c445?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-      date: "March 2025",
-      verified: true
-    }
+    // {
+    //   id: 5,
+    //   name: "Lisa Thompson",
+    //   location: "Vancouver, Canada",
+    //   tourPackage: "12 Days Nature & Wildlife Tour",
+    //   text: "Amazing honeymoon trip! Adam's Peak hike was challenging but rewarding. The Nine Arch Bridge in Ella was picture-perfect. Whale watching in Mirissa was the highlight. Thank you for making our special trip unforgettable!",
+    //   rating: 5,
+    //   avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+    //   tourImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+    //   date: "February 2025",
+    //   verified: true
+    // },
+    // {
+    //   id: 6,
+    //   name: "David Brown",
+    //   location: "Manchester, UK",
+    //   tourPackage: "10 Days Cultural Heritage Tour",
+    //   text: "Excellent cultural immersion! The Temple of the Tooth in Kandy was deeply spiritual. Dambulla Cave Temple's ancient paintings were mesmerizing. Our guide's knowledge of Sri Lankan history enriched every visit.",
+    //   rating: 5,
+    //   avatar: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+    //   tourImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+    //   date: "January 2025",
+    //   verified: true
+    // },
+    // {
+    //   id: 7,
+    //   name: "Anna Schmidt",
+    //   location: "Berlin, Germany",
+    //   tourPackage: "14 Days Complete Experience",
+    //   text: "Perfectly planned adventure! Every destination was unique - from the wild beauty of Wilpattu to the golden beaches of Tangalle. The local cuisine experiences were delightful. Will definitely return to Sri Lanka!",
+    //   rating: 5,
+    //   avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+    //   tourImage: "https://images.unsplash.com/photo-1566552881560-0be862a7c445?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+    //   date: "March 2025",
+    //   verified: true
+    // }
   ];
 
   // Auto-scroll functionality
@@ -1805,11 +2182,11 @@ const Reviews: React.FC = () => {
                 {/* Review Header */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
-                    <img
+                    {/* <img
                       src={review.avatar}
                       alt={review.name}
                       className="w-14 h-14 rounded-full object-cover mr-4 border-2 border-orange-200"
-                    />
+                    /> */}
                     <div>
                       <h4 className="font-bold text-gray-800 text-lg">{review.name}</h4>
                       <p className="text-sm text-gray-500 flex items-center">
@@ -1885,7 +2262,7 @@ const Reviews: React.FC = () => {
         {/* Statistics */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <h3 className="text-3xl font-bold text-orange-500 mb-2">2,500+</h3>
+            <h3 className="text-3xl font-bold text-orange-500 mb-2">400+</h3>
             <p className="text-gray-600">Happy Travelers</p>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-lg">
@@ -1893,11 +2270,11 @@ const Reviews: React.FC = () => {
             <p className="text-gray-600">Average Rating</p>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <h3 className="text-3xl font-bold text-orange-500 mb-2">50+</h3>
+            <h3 className="text-3xl font-bold text-orange-500 mb-2">30+</h3>
             <p className="text-gray-600">Destinations</p>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <h3 className="text-3xl font-bold text-orange-500 mb-2">8</h3>
+            <h3 className="text-3xl font-bold text-orange-500 mb-2">5</h3>
             <p className="text-gray-600">Years Experience</p>
           </div>
         </div>
@@ -2114,6 +2491,7 @@ const App = () => {
       <HeroSection />
       <TopDestinations />
       <TourPackages />
+      <PackagesServices />
       <MoreDestinations />
       <Gallery />
       <Reviews />
