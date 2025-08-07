@@ -83,28 +83,53 @@ const Header: React.FC = () => {
     });
   };
 
-  const handleSubmit = () => {
-    // Basic validation
-    if (!formData.name || !formData.email || !formData.message) {
-      alert('Please fill in all required fields.');
-      return;
-    }
-    
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      alert('Please enter a valid email address.');
-      return;
-    }
-    
-    // Simulate sending message
-    console.log('Contact Form Data:', formData);
-    alert(`Thank you ${formData.name}! Your message has been sent. We'll get back to you soon.`);
-    
-    // Reset form and close modal
-    setFormData({ name: '', email: '', phone: '', message: '' });
-    setIsContactModalOpen(false);
-  };
+ const sendWhatsAppMessage = (formData: any) => {
+  const phoneNumber = "+94764333576";
+  
+  const message = `*New Tour Inquiry from Website*
+
+👤 *Name:* ${formData.name}
+📧 *Email:* ${formData.email}
+📱 *Phone:* ${formData.phone || 'Not provided'}
+
+💬 *Message:*
+${formData.message}
+
+_This message was sent from Wander Lens Tours website contact form._`;
+
+  // Create WhatsApp URL
+  const whatsappUrl = `https://wa.me/${phoneNumber.replace('+', '')}?text=${encodeURIComponent(message)}`;
+  
+  // Open WhatsApp in new tab
+  window.open(whatsappUrl, '_blank');
+};
+
+// ...existing code...
+
+const handleSubmit = () => {
+  // Basic validation
+  if (!formData.name || !formData.email || !formData.message) {
+    alert('Please fill in all required fields.');
+    return;
+  }
+  
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(formData.email)) {
+    alert('Please enter a valid email address.');
+    return;
+  }
+  
+  // Send to WhatsApp
+  sendWhatsAppMessage(formData);
+  
+  // Show success message
+  alert(`Thank you ${formData.name}! Your message will be sent via WhatsApp. We'll get back to you soon.`);
+  
+  // Reset form and close modal
+  setFormData({ name: '', email: '', phone: '', message: '' });
+  setIsContactModalOpen(false);
+};
 
   const openContactModal = () => {
     setIsContactModalOpen(true);
@@ -263,7 +288,7 @@ const Header: React.FC = () => {
                       </div>
                       <div>
                         <h5 className="font-semibold text-gray-800">Phone</h5>
-                        <p className="text-gray-600">+94 77 123 4567</p>
+                        <p className="text-gray-600">+94 76 433 3576</p>
                         <p className="text-sm text-gray-500">Available 24/7 for emergencies</p>
                       </div>
                     </div>
@@ -274,12 +299,12 @@ const Header: React.FC = () => {
                       </div>
                       <div>
                         <h5 className="font-semibold text-gray-800">Email</h5>
-                        <p className="text-gray-600">info@wanderlens.lk</p>
+                        <p className="text-gray-600">jeewakalive@gmail.com</p>
                         <p className="text-sm text-gray-500">We'll respond within 24 hours</p>
                       </div>
                     </div>
 
-                    <div className="flex items-center space-x-4 p-4 bg-green-50 rounded-xl">
+                    {/* <div className="flex items-center space-x-4 p-4 bg-green-50 rounded-xl">
                       <div className="bg-green-500 p-3 rounded-full">
                         <MapPin size={20} className="text-white" />
                       </div>
@@ -288,7 +313,7 @@ const Header: React.FC = () => {
                         <p className="text-gray-600">123 Galle Road, Colombo 03</p>
                         <p className="text-sm text-gray-500">Sri Lanka</p>
                       </div>
-                    </div>
+                    </div> */}
 
                     <div className="flex items-center space-x-4 p-4 bg-purple-50 rounded-xl">
                       <div className="bg-purple-500 p-3 rounded-full">
@@ -365,7 +390,7 @@ const Header: React.FC = () => {
                           value={formData.phone}
                           onChange={handleInputChange}
                           className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-                          placeholder="+94 77 123 4567"
+                          placeholder="+94 76 433 3576"
                         />
                       </div>
                     </div>
@@ -734,8 +759,8 @@ const TourPackages: React.FC = () => {
     {
       title: "12 Days Nature & Wildlife Tour",
       location: "SRI LANKA",
-      price: "999",
-      originalPrice: "1,700",
+      price: "1,100",
+      originalPrice: "1,450",
       days: 12,
       people: "Per Two People",
       rating: 5,
@@ -770,7 +795,7 @@ const TourPackages: React.FC = () => {
       title: "10 Days Cultural Heritage Tour", 
       location: "SRI LANKA",
       price: "999",
-      originalPrice: "1,700",
+      originalPrice: "1,200",
       days: 10,
       people: "Per Two People",
       rating: 5,
@@ -905,8 +930,8 @@ const TourPackages: React.FC = () => {
     {
     "title": "Southern Delights Tour",
     "location": "SRI LANKA",
-    "price": "420",
-    "originalPrice": "630",
+    "price": "450",
+    "originalPrice": "700",
     "days": 5,
     "people": "Per Two People",
     "rating": 5,
@@ -2419,7 +2444,7 @@ const Footer: React.FC = () => {
             <div className="space-y-4 mb-6">
               <p className="flex items-center text-gray-300">
                 <Phone size={16} className="mr-3 text-orange-400" />
-                +94 77 123 4567
+                +94 76 433 3576
               </p>
               <p className="flex items-center text-gray-300">
                 <Mail size={16} className="mr-3 text-orange-400" />
@@ -2483,6 +2508,97 @@ const Footer: React.FC = () => {
   );
 };
 
+const FloatingWhatsAppButton: React.FC = () => {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+
+  // WhatsApp number - replace with your actual number
+  const whatsappNumber = "+94764333576";
+  const defaultMessage = `*New Tour Inquiry from Website*`;
+
+  // Show button after scrolling down
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const handleWhatsAppClick = () => {
+    const encodedMessage = encodeURIComponent(defaultMessage);
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
+  return (
+    <>
+      {/* WhatsApp Floating Button */}
+      <div
+        className={`fixed bottom-6 right-6 z-50 transition-all duration-500 ${
+          isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"
+        }`}
+      >
+        <button
+          onClick={handleWhatsAppClick}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className="relative group"
+          aria-label="Contact us on WhatsApp"
+        >
+          {/* Pulse Animation Ring */}
+          <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-25"></div>
+          
+          {/* Main Button */}
+          <div className="relative bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-110">
+            {/* WhatsApp Icon SVG */}
+            <svg
+              className="w-7 h-7"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.149-.67.149-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.123-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+            </svg>
+          </div>
+
+          {/* Tooltip */}
+          {isHovered && (
+            <div className="absolute bottom-full right-0 mb-3 whitespace-nowrap bg-gray-800 text-white text-sm px-3 py-2 rounded-lg shadow-lg transform transition-all duration-300">
+              <span>Chat with us on WhatsApp!</span>
+              <div className="absolute top-full right-6 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-gray-800"></div>
+            </div>
+          )}
+        </button>
+
+        {/* Optional: Text label that appears on hover */}
+        <div
+          className={`absolute bottom-0 right-full mr-3 bg-white text-gray-800 px-3 py-2 rounded-lg shadow-lg whitespace-nowrap transition-all duration-300 ${
+            isHovered ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
+          }`}
+        >
+          <span className="text-sm font-medium">Need help? Chat with us!</span>
+        </div>
+      </div>
+
+      {/* Mobile-specific adjustments */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .fixed.bottom-6.right-6 {
+            bottom: 20px;
+            right: 20px;
+          }
+        }
+      `}</style>
+    </>
+  );
+};
+
 // Main App Component
 const App = () => {
   return (
@@ -2495,6 +2611,7 @@ const App = () => {
       <MoreDestinations />
       <Gallery />
       <Reviews />
+      <FloatingWhatsAppButton />
       <Footer />
     </div>
   );
