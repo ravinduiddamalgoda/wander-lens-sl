@@ -84,7 +84,7 @@ const Header: React.FC = () => {
   };
 
  const sendWhatsAppMessage = (formData: any) => {
-  const phoneNumber = "+94764333576";
+  const phoneNumber = "+94767670980";
   
   const message = `*New Tour Inquiry from Website*
 
@@ -2444,7 +2444,7 @@ const Footer: React.FC = () => {
             <div className="space-y-4 mb-6">
               <p className="flex items-center text-gray-300">
                 <Phone size={16} className="mr-3 text-orange-400" />
-                +94 76 433 3576
+                +94 76 767 0980
               </p>
               <p className="flex items-center text-gray-300">
                 <Mail size={16} className="mr-3 text-orange-400" />
@@ -2513,7 +2513,7 @@ const FloatingWhatsAppButton: React.FC = () => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
   // WhatsApp number - replace with your actual number
-  const whatsappNumber = "+94764333576";
+  const whatsappNumber = "+94767670980";
   const defaultMessage = `*New Tour Inquiry from Website*`;
 
   // Show button after scrolling down
