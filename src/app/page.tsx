@@ -288,7 +288,7 @@ const handleSubmit = () => {
                       </div>
                       <div>
                         <h5 className="font-semibold text-gray-800">Phone</h5>
-                        <p className="text-gray-600">+94 76 433 3576</p>
+                        <p className="text-gray-600">+94 76 767 0980</p>
                         <p className="text-sm text-gray-500">Available 24/7 for emergencies</p>
                       </div>
                     </div>
@@ -794,8 +794,8 @@ const TourPackages: React.FC = () => {
     {
       title: "10 Days Cultural Heritage Tour", 
       location: "SRI LANKA",
-      price: "999",
-      originalPrice: "1,200",
+      price: "0",
+      originalPrice: "1,250",
       days: 10,
       people: "Per Two People",
       rating: 5,
@@ -861,8 +861,8 @@ const TourPackages: React.FC = () => {
    {
   "title": "14 Days Complete Sri Lanka Experience",
   "location": "SRI LANKA",
-  "price": "1330",
-  "originalPrice": "1700",
+  "price": "1390",
+  "originalPrice": "1850",
   "days": 14,
   "people": "Per Two People",
   "rating": 5,
@@ -2448,11 +2448,11 @@ const Footer: React.FC = () => {
               </p>
               <p className="flex items-center text-gray-300">
                 <Mail size={16} className="mr-3 text-orange-400" />
-                info@wanderlens.lk
+                  wanderlenstours@gmail.com
               </p>
               <p className="flex items-start text-gray-300">
                 <MapPin size={16} className="mr-3 text-orange-400 mt-1" />
-                123 Galle Road, Colombo 03,<br />Sri Lanka
+                No 35/1, Galle Road, unawatuna<br />Sri Lanka
               </p>
             </div>
 
