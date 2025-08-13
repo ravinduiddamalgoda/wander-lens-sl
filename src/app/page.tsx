@@ -794,7 +794,7 @@ const TourPackages: React.FC = () => {
     {
       title: "10 Days Cultural Heritage Tour", 
       location: "SRI LANKA",
-      price: "0",
+      price: "990",
       originalPrice: "1,250",
       days: 10,
       people: "Per Two People",
