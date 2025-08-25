@@ -16,6 +16,7 @@ interface TourPackage {
   highlights: string[];
   itinerary: string[];
   image: string;
+  mapImage: string;
 }
 
 
@@ -745,7 +746,9 @@ const TopDestinations = () => {
 // Tour Packages Component
 const TourPackages: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isMapModalOpen, setIsMapModalOpen] = useState<boolean>(false);
   const [selectedPackage, setSelectedPackage] = useState<TourPackage | null>(null);
+  const [selectedMapPackage, setSelectedMapPackage] = useState<TourPackage | null>(null);
   const [expandedItinerary, setExpandedItinerary] = useState<ExpandedState>({});
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -762,7 +765,7 @@ const TourPackages: React.FC = () => {
       price: "1,100",
       originalPrice: "1,450",
       days: 12,
-      people: "Per Two People",
+      people: "Per Two Persons",
       rating: 5,
       description: "Experience the ultimate Sri Lankan adventure with our comprehensive 12-day nature and wildlife tour. Journey through pristine national parks, ancient mountain ranges, and stunning landscapes while encountering diverse wildlife including elephants, leopards, and exotic birds.",
       highlights: [
@@ -790,6 +793,7 @@ const TourPackages: React.FC = () => {
         "Day 12: Departure from Airport"
       ],
       image: "/img/packages/mountain.png",
+      mapImage: "/img/packages/12 Days Nature & Wildlife Tour Map.png"
     },
     {
       title: "10 Days Cultural Heritage Tour", 
@@ -797,7 +801,7 @@ const TourPackages: React.FC = () => {
       price: "990",
       originalPrice: "1,250",
       days: 10,
-      people: "Per Two People",
+      people: "Per Two Persons",
       rating: 5,
       description: "Immerse yourself in Sri Lanka's rich cultural heritage with this comprehensive journey through ancient kingdoms, sacred temples, and historical sites. Perfect for history enthusiasts and culture lovers seeking authentic experiences.",
       highlights: [
@@ -822,6 +826,7 @@ const TourPackages: React.FC = () => {
         "Day 10: Departure from Airport"
       ],
       image: "img/packages/perahara.png",
+      mapImage: "/img/packages/10 Days Cultural Heritage Tour Map.png"
     },
       {
     "title": "Beach Relaxation Tour",
@@ -829,7 +834,7 @@ const TourPackages: React.FC = () => {
     "price": "1,340",
     "originalPrice": "1,780",
     "days": 15,
-    "people": "Per Two People",
+    "people": "Per Two Persons",
     "rating": 5,
     "description": "Unwind and rejuvenate on the stunning beaches of Sri Lanka with our Beach Relaxation Tour. Enjoy sun-soaked days, luxurious resorts, and the soothing sounds of the ocean as you escape the hustle and bustle of everyday life.",
     "highlights": [
@@ -856,7 +861,8 @@ const TourPackages: React.FC = () => {
       "Day 14: Hikkaduwa - Bentota",
       "Day 15: Departure from Airport"
     ],
-    "image": "img/topDestication/Hikkaduwa.jpg"
+    "image": "img/topDestication/Hikkaduwa.jpg",
+    "mapImage": "/img/packages/Beach Relaxation Tour Map.png"
   },
    {
   "title": "14 Days Complete Sri Lanka Experience",
@@ -864,7 +870,7 @@ const TourPackages: React.FC = () => {
   "price": "1390",
   "originalPrice": "1850",
   "days": 14,
-  "people": "Per Two People",
+  "people": "Per Two Persons",
   "rating": 5,
   "description": "The ultimate Sri Lankan experience combining culture, nature, wildlife, and beaches. This comprehensive tour covers all major attractions from ancient cities to tropical beaches, wildlife safaris to mountain landscapes.",
   "highlights": [
@@ -896,7 +902,8 @@ const TourPackages: React.FC = () => {
     "Day 13: Bentota - Colombo",
     "Day 14: Departure from Airport"
   ],
-  "image": "img/packages/beach.jpg"
+  "image": "img/packages/beach.jpg",
+  "mapImage": "/img/packages/14 Days Complete Sri Lanka Experience Map.png"
 },
 
     {
@@ -905,7 +912,7 @@ const TourPackages: React.FC = () => {
       "price": "980",
       "originalPrice": "1,350",
       "days": 8,
-      "people": "Per Two People",
+      "people": "Per Two Persons",
       "rating": 5,
       "description": "Experience Sri Lanka's incredible wildlife with our premium safari package. From elephants to leopards and exotic birds, witness amazing biodiversity across the island’s top national parks with guided safaris and unique encounters.",
       "highlights": [
@@ -924,7 +931,8 @@ const TourPackages: React.FC = () => {
         "Day 7: Kandy - Pinnawala - Negombo",
         "Day 8: Departure from Airport"
       ],
-      "image": "/img/packages/yala.png"
+      "image": "/img/packages/yala.png",
+      "mapImage": "/img/packages/Premium Safari Experience Map.png"
     },  
 
     {
@@ -933,7 +941,7 @@ const TourPackages: React.FC = () => {
     "price": "450",
     "originalPrice": "700",
     "days": 5,
-    "people": "Per Two People",
+    "people": "Per Two Persons",
     "rating": 5,
     "description": "Discover the serene beauty of southern Sri Lanka with our Southern Delights Tour. Explore tranquil beaches, colonial history, and coastal charm across Tangalle, Mirissa, Unawatuna, and the iconic Galle Fort.",
     "highlights": [
@@ -949,7 +957,8 @@ const TourPackages: React.FC = () => {
       "Day 4: Mirissa - Galle",
       "Day 5: Departure from Airport"
     ],
-    "image": "img/moreDestinations/galle-fort.jpg"
+    "image": "img/moreDestinations/galle-fort.jpg",
+    "mapImage": "/img/packages/Southern Delights Tour Map.png"
   }
 ];
 
@@ -963,6 +972,16 @@ const TourPackages: React.FC = () => {
   const handleBookNow = (pkg: TourPackage): void => {
     setSelectedPackage(pkg);
     setIsModalOpen(true);
+  };
+
+  const handleViewMap = (pkg: TourPackage): void => {
+    setSelectedMapPackage(pkg);
+    setIsMapModalOpen(true);
+  };
+
+  const closeMapModal = (): void => {
+    setIsMapModalOpen(false);
+    setSelectedMapPackage(null);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
@@ -1133,8 +1152,8 @@ const TourPackages: React.FC = () => {
                   </div>
 
                   <div className="flex items-center space-x-2 mb-6">
-                    <Users size={18} className="text-gray-500" />
-                    <span className="text-gray-600 font-medium">{pkg.people}</span>
+                    <Users size={18} className="text-black" />
+                    <span className="text-black font-large font-extrabold">{pkg.people}</span>
                   </div>
 
                   <div className="flex items-center justify-between pt-6 border-t border-gray-100">
@@ -1146,12 +1165,21 @@ const TourPackages: React.FC = () => {
                         ${pkg.originalPrice}
                       </span>
                     </div>
-                    <button 
-                      onClick={() => handleBookNow(pkg)}
-                      className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-3 rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-semibold"
-                    >
-                      Book Now
-                    </button>
+                    <div className="flex flex-col space-y-2">
+                      <button 
+                        onClick={() => handleBookNow(pkg)}
+                        className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-semibold text-sm"
+                      >
+                        Book Now
+                      </button>
+                      <button 
+                        onClick={() => handleViewMap(pkg)}
+                        className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-2 rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-semibold text-sm flex items-center justify-center"
+                      >
+                        <MapPin size={14} className="mr-1" />
+                        View Map
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1332,6 +1360,111 @@ const TourPackages: React.FC = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Map Modal */}
+      {isMapModalOpen && selectedMapPackage && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div>
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-800">
+                  Tour Route Map
+                </h3>
+                <p className="text-gray-600 text-lg mt-1">
+                  {selectedMapPackage.title}
+                </p>
+              </div>
+              <button
+                onClick={closeMapModal}
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X size={24} className="text-gray-600" />
+              </button>
+            </div>
+
+            {/* Map Image Container */}
+            <div className="relative">
+              <div className="w-full h-[60vh] md:h-[70vh] overflow-auto">
+                <img
+                  src={selectedMapPackage.mapImage}
+                  alt={`${selectedMapPackage.title} Route Map`}
+                  className="w-full h-full object-contain bg-gray-50"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = '/img/map/default-map.jpg'; // Fallback image
+                  }}
+                />
+              </div>
+              
+              {/* Map Overlay Info */}
+              <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-lg max-w-xs">
+                <div className="flex items-center mb-2">
+                  <Calendar size={18} className="text-orange-500 mr-2" />
+                  <span className="font-semibold text-gray-800">{selectedMapPackage.days} Days Tour</span>
+                </div>
+                <div className="flex items-center mb-2">
+                  <MapPin size={18} className="text-blue-500 mr-2" />
+                  <span className="text-gray-700">{selectedMapPackage.location}</span>
+                </div>
+                <div className="flex items-center">
+                  <Users size={18} className="text-green-500 mr-2" />
+                  <span className="text-gray-700">{selectedMapPackage.people}</span>
+                </div>
+              </div>
+
+              {/* Price Info */}
+              <div className="absolute top-4 right-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl p-4 shadow-lg">
+                <div className="text-center">
+                  <span className="text-2xl font-bold">${selectedMapPackage.price}</span>
+                  <div className="text-orange-100 line-through text-sm">
+                    ${selectedMapPackage.originalPrice}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            {/* <div className="p-6 border-t border-gray-200 bg-gray-50">
+              <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
+                <div className="text-center sm:text-left">
+                  <p className="text-gray-600 text-sm mb-2">
+                    Explore the detailed route and destinations of this amazing tour
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-medium">
+                      Detailed Itinerary
+                    </span>
+                    <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">
+                      GPS Coordinates
+                    </span>
+                    <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium">
+                      Distance Information
+                    </span>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={closeMapModal}
+                    className="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-100 transition-all font-semibold"
+                  >
+                    Close Map
+                  </button>
+                  <button
+                    onClick={() => {
+                      closeMapModal();
+                      handleBookNow(selectedMapPackage);
+                    }}
+                    className="px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-xl hover:shadow-lg transition-all font-semibold"
+                  >
+                    Book This Tour
+                  </button>
+                </div>
+              </div>
+            </div> */}
           </div>
         </div>
       )}
@@ -2229,18 +2362,13 @@ const Reviews: React.FC = () => {
 
                 {/* Tour Package */}
                 <div className="mb-4">
-                  <div className="bg-orange-50 rounded-lg p-3 mb-3">
+                  <div className="bg-orange-50 rounded-lg p-4">
                     <p className="text-sm font-semibold text-orange-600 flex items-center">
                       <Calendar size={14} className="mr-2" />
                       {review.tourPackage}
                     </p>
                     <p className="text-xs text-gray-500 mt-1">{review.date}</p>
                   </div>
-                  <img
-                    src={review.tourImage}
-                    alt={review.tourPackage}
-                    className="w-full h-32 object-cover rounded-lg"
-                  />
                 </div>
 
                 {/* Review Text */}
