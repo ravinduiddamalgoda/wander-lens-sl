@@ -455,7 +455,7 @@ const HeroSection = () => {
 
       <div className="relative z-0 w-full h-full grid lg:grid-cols-2 md:grid-cols-1 items-center justify-center">
         <div className="relative z-10 text-center text-white max-w-4xl px-4 mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
+          <h1 className="text-4xl md:text-6xl sm:text-2xl font-bold leading-tight mb-6">
             Discover Your Dream
             <br />
             <span className="bg-clip-text bg-gradient-to-r text-white">
