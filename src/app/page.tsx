@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Menu,Calendar, Star, Users, MapPin, X, Mail, Phone, User, ChevronDown, ChevronUp, Twitter, Youtube, Instagram, Facebook, Camera, MessageCircle, Clock, Send, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ParallaxScroll } from "@/components/ui/parallax-scroll";
 
 interface TourPackage {
   title: string;
@@ -1813,139 +1814,309 @@ const MoreDestinations: React.FC = () => {
 };
 
 // Gallery Component
-const Gallery: React.FC = () => {
-  const [hoveredPhoto, setHoveredPhoto] = useState<number | null>(null);
+// const Gallery: React.FC = () => {
+//   const [hoveredPhoto, setHoveredPhoto] = useState<number | null>(null);
 
-  const photos: Photo[] = [
-    {
-      id: 1,
-      src: "/img/gallery/1.jpg",
-      alt: "Group photo at scenic waterfall location",
-      style: {
-        transform: "rotate(-8deg) translate(-20px, 10px)",
-        zIndex: 1,
-        top: "3%",
-        left: "5%",
-      },
-    },
-    {
-      id: 2,
-      src: "/img/gallery/2.jpg",
-      alt: "Friends exploring historical temple site",
-      style: {
-        transform: "rotate(12deg) translate(15px, -5px)",
-        zIndex: 3,
-        top: "1%",
-        left: "28%",
-      },
-    },
-    {
-      id: 3,
-      src: "/img/gallery/3.jpg",
-      alt: "Tea plantation adventure in hill country",
-      style: {
-        transform: "rotate(-5deg) translate(10px, 20px)",
-        zIndex: 2,
-        top: "5%",
-        right: "8%",
-      },
-    },
-    {
-      id: 4,
-      src: "/img/gallery/4.jpg",
-      alt: "Wildlife safari tour group experience",
-      style: {
-        transform: "rotate(15deg) translate(-25px, 15px)",
-        zIndex: 1,
-        top: "32%",
-        left: "2%",
-      },
-    },
-    {
-      id: 5,
-      src: "/img/gallery/5.jpg",
-      alt: "Beach adventure and water activities",
-      style: {
-        transform: "rotate(-12deg) translate(20px, -10px)",
-        zIndex: 4,
-        top: "28%",
-        left: "22%",
-      },
-    },
-    {
-      id: 6,
-      src: "/img/gallery/6.jpg",
-      alt: "Sigiriya rock fortress climbing experience",
-      style: {
-        transform: "rotate(8deg) translate(-15px, 25px)",
-        zIndex: 2,
-        top: "25%",
-        right: "5%",
-      },
-    },
-    {
-      id: 7,
-      src: "/img/gallery/7.jpg",
-      alt: "Cultural exploration and local traditions",
-      style: {
-        transform: "rotate(-18deg) translate(30px, 5px)",
-        zIndex: 3,
-        bottom: "12%",
-        left: "12%",
-      },
-    },
-    {
-      id: 8,
-      src: "/img/gallery/8.jpg",
-      alt: "Elephant safari in Udawalawe park",
-      style: {
-        transform: "rotate(10deg) translate(-10px, -20px)",
-        zIndex: 1,
-        bottom: "15%",
-        right: "15%",
-      },
-    },
-    {
-      id: 9,
-      src: "/img/gallery/9.jpg",
-      alt: "Mountain trekking in Knuckles range",
-      style: {
-        transform: "rotate(-6deg) translate(5px, 15px)",
-        zIndex: 2,
-        bottom: "5%",
-        left: "35%",
-      },
-    },
-    {
-      id: 10,
-      src: "/img/gallery/10.jpg",
-      alt: "Kandy lake and temple views",
-      style: {
-        transform: "rotate(14deg) translate(-20px, 10px)",
-        zIndex: 2,
-        top: "58%",
-        left: "48%",
-      },
-    },
-    {
-      id: 11,
-      src: "/img/gallery/11.jpg",
-      alt: "Ella Nine Arch Bridge visit",
-      style: {
-        transform: "rotate(-10deg) translate(25px, -15px)",
-        zIndex: 1,
-        bottom: "35%",
-        right: "38%",
-      },
-    }
-  ];
+//   const photos: Photo[] = [
+//     {
+//       id: 1,
+//       src: "/img/gallery/1.jpg",
+//       alt: "Group photo at scenic waterfall location",
+//       style: {
+//         transform: "rotate(-8deg) translate(-20px, 10px)",
+//         zIndex: 1,
+//         top: "3%",
+//         left: "5%",
+//       },
+//     },
+//     {
+//       id: 2,
+//       src: "/img/gallery/2.jpg",
+//       alt: "Friends exploring historical temple site",
+//       style: {
+//         transform: "rotate(12deg) translate(15px, -5px)",
+//         zIndex: 3,
+//         top: "1%",
+//         left: "28%",
+//       },
+//     },
+//     {
+//       id: 3,
+//       src: "/img/gallery/3.jpg",
+//       alt: "Tea plantation adventure in hill country",
+//       style: {
+//         transform: "rotate(-5deg) translate(10px, 20px)",
+//         zIndex: 2,
+//         top: "5%",
+//         right: "8%",
+//       },
+//     },
+//     {
+//       id: 4,
+//       src: "/img/gallery/4.jpg",
+//       alt: "Wildlife safari tour group experience",
+//       style: {
+//         transform: "rotate(15deg) translate(-25px, 15px)",
+//         zIndex: 1,
+//         top: "32%",
+//         left: "2%",
+//       },
+//     },
+//     {
+//       id: 5,
+//       src: "/img/gallery/5.jpg",
+//       alt: "Beach adventure and water activities",
+//       style: {
+//         transform: "rotate(-12deg) translate(20px, -10px)",
+//         zIndex: 4,
+//         top: "28%",
+//         left: "22%",
+//       },
+//     },
+//     {
+//       id: 6,
+//       src: "/img/gallery/6.jpg",
+//       alt: "Sigiriya rock fortress climbing experience",
+//       style: {
+//         transform: "rotate(8deg) translate(-15px, 25px)",
+//         zIndex: 2,
+//         top: "25%",
+//         right: "5%",
+//       },
+//     },
+//     {
+//       id: 7,
+//       src: "/img/gallery/7.jpg",
+//       alt: "Cultural exploration and local traditions",
+//       style: {
+//         transform: "rotate(-18deg) translate(30px, 5px)",
+//         zIndex: 3,
+//         bottom: "12%",
+//         left: "12%",
+//       },
+//     },
+//     {
+//       id: 8,
+//       src: "/img/gallery/8.jpg",
+//       alt: "Elephant safari in Udawalawe park",
+//       style: {
+//         transform: "rotate(10deg) translate(-10px, -20px)",
+//         zIndex: 1,
+//         bottom: "15%",
+//         right: "15%",
+//       },
+//     },
+//     {
+//       id: 9,
+//       src: "/img/gallery/9.jpg",
+//       alt: "Mountain trekking in Knuckles range",
+//       style: {
+//         transform: "rotate(-6deg) translate(5px, 15px)",
+//         zIndex: 2,
+//         bottom: "5%",
+//         left: "35%",
+//       },
+//     },
+//     {
+//       id: 10,
+//       src: "/img/gallery/10.jpg",
+//       alt: "Kandy lake and temple views",
+//       style: {
+//         transform: "rotate(14deg) translate(-20px, 10px)",
+//         zIndex: 2,
+//         top: "58%",
+//         left: "48%",
+//       },
+//     },
+//     {
+//       id: 11,
+//       src: "/img/gallery/11.jpg",
+//       alt: "Ella Nine Arch Bridge visit",
+//       style: {
+//         transform: "rotate(-10deg) translate(25px, -15px)",
+//         zIndex: 1,
+//         bottom: "35%",
+//         right: "38%",
+//       },
+//     }
+//   ];
+
+//   return (
+//     <section className="py-20 bg-gradient-to-b from-gray-50 to-white overflow-hidden" id="gallery">
+//       <div className="container mx-auto px-4">
+//         <div className="text-center mb-16">
+//           <h2
+//             className="text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 mb-8"
+//             style={{ fontFamily: "cursive" }}
+//           >
+//             Gallery
+//           </h2>
+//           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+//             A collection of unforgettable moments captured during our Sri Lankan adventures
+//           </p>
+//         </div>
+
+//         {/* Scattered Photo Collage - Larger and More Responsive */}
+//         <div className="relative h-[70vh] md:h-[80vh] lg:h-[90vh] mx-auto max-w-7xl">
+//           {photos.map((photo) => (
+//             <div
+//               key={photo.id}
+//               className="absolute cursor-pointer group transition-all duration-500 ease-out
+//                          w-40 h-32 
+//                          sm:w-48 sm:h-36 
+//                          md:w-56 md:h-40 
+//                          lg:w-64 lg:h-48 
+//                          xl:w-72 xl:h-52"
+//               style={photo.style}
+//               onMouseEnter={() => setHoveredPhoto(photo.id)}
+//               onMouseLeave={() => setHoveredPhoto(null)}
+//             >
+//               <div 
+//                 className={`relative w-full h-full bg-white shadow-xl transition-all duration-500 transform
+//                            ${hoveredPhoto === photo.id 
+//                              ? 'scale-110 shadow-2xl rotate-0 z-50' 
+//                              : 'hover:scale-105 hover:shadow-2xl'
+//                            }
+//                            ${hoveredPhoto && hoveredPhoto !== photo.id ? 'opacity-75' : 'opacity-100'}`}
+//                 style={{
+//                   padding: "8px 8px 24px 8px", // Polaroid-style padding with extra bottom space
+//                   zIndex: hoveredPhoto === photo.id ? 50 : photo.style.zIndex
+//                 }}
+//               >
+//                 <img
+//                   src={photo.src}
+//                   alt={photo.alt}
+//                   className="w-full h-full object-cover rounded-sm"
+//                   loading="lazy"
+//                 />
+                
+//                 {/* Polaroid-style bottom label area */}
+//                 <div className="absolute bottom-2 left-2 right-2 h-4 flex items-center justify-center">
+//                   <div className="w-full h-0.5 bg-gray-200"></div>
+//                 </div>
+                
+//                 {/* Hover overlay with description */}
+//                 <div className={`absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 transition-opacity duration-300 rounded-sm
+//                                ${hoveredPhoto === photo.id ? 'opacity-100' : 'opacity-0'}`}>
+//                   <p className="text-white text-sm md:text-base font-medium text-center leading-tight">
+//                     {photo.alt}
+//                   </p>
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+
+//         {/* Enhanced Call to Action */}
+//         <div className="text-center mt-16">
+//           <p className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto mb-8 leading-relaxed">
+//             Capture memories that last a lifetime. Join our tours and create your own amazing stories to share with the world.
+//           </p>
+          
+//           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+//             <button
+//               className="bg-gradient-to-r from-teal-500 to-blue-600 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-semibold text-lg"
+//               onClick={() => {
+//                 window.location.hash = "destinations";
+//               }}
+//             >
+//               Book Your Adventure
+//             </button>
+//             <button className="border-2 border-teal-500 text-teal-600 px-8 py-4 rounded-full hover:bg-teal-500 hover:text-white transition-all duration-300 font-semibold text-lg">
+//               View More Photos
+//             </button>
+//           </div>
+//         </div>
+
+//         {/* Statistics */}
+//         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+//           <div className="bg-white rounded-2xl p-6 shadow-lg">
+//             <h3 className="text-3xl font-bold text-teal-600 mb-2">1000+</h3>
+//             <p className="text-gray-600">Photos Captured</p>
+//           </div>
+//           <div className="bg-white rounded-2xl p-6 shadow-lg">
+//             <h3 className="text-3xl font-bold text-teal-600 mb-2">1000+</h3>
+//             <p className="text-gray-600">Happy Memories</p>
+//           </div>
+//           <div className="bg-white rounded-2xl p-6 shadow-lg">
+//             <h3 className="text-3xl font-bold text-teal-600 mb-2">30+</h3>
+//             <p className="text-gray-600">Locations Visited</p>
+//           </div>
+//           <div className="bg-white rounded-2xl p-6 shadow-lg">
+//             <h3 className="text-3xl font-bold text-teal-600 mb-2">50+</h3>
+//             <p className="text-gray-600">Tour Groups</p>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+
+const Gallery: React.FC = () => {
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch gallery images from API
+  useEffect(() => {
+    const fetchGalleryImages = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/gallery');
+        const data = await response.json();
+        
+        if (data.images && data.images.length > 0) {
+          setGalleryImages(data.images);
+        } else {
+          // Fallback to known images if API fails
+          const fallbackImages = [
+            "/img/gallery/1.jpg",
+            "/img/gallery/2.jpg", 
+            "/img/gallery/3.jpg",
+            "/img/gallery/4.jpg",
+            "/img/gallery/5.jpg",
+            "/img/gallery/6.jpg",
+            "/img/gallery/7.jpg",
+            "/img/gallery/8.jpg",
+            "/img/gallery/9.jpg",
+            "/img/gallery/10.jpg",
+            "/img/gallery/11.jpg"
+          ];
+          setGalleryImages(fallbackImages);
+        }
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching gallery images:', err);
+        setError('Failed to load gallery images');
+        // Fallback to known images
+        const fallbackImages = [
+          "/img/gallery/1.jpg",
+          "/img/gallery/2.jpg", 
+          "/img/gallery/3.jpg",
+          "/img/gallery/4.jpg",
+          "/img/gallery/5.jpg",
+          "/img/gallery/6.jpg",
+          "/img/gallery/7.jpg",
+          "/img/gallery/8.jpg",
+          "/img/gallery/9.jpg",
+          "/img/gallery/10.jpg",
+          "/img/gallery/11.jpg"
+        ];
+        setGalleryImages(fallbackImages);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGalleryImages();
+  }, []);
 
   return (
     <section className="py-20 bg-gradient-to-b from-gray-50 to-white overflow-hidden" id="gallery">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2
-            className="text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 mb-8"
+            className="text-5xl md:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-blue-200 pb-10"
             style={{ fontFamily: "cursive" }}
           >
             Gallery
@@ -1955,56 +2126,24 @@ const Gallery: React.FC = () => {
           </p>
         </div>
 
-        {/* Scattered Photo Collage - Larger and More Responsive */}
-        <div className="relative h-[70vh] md:h-[80vh] lg:h-[90vh] mx-auto max-w-7xl">
-          {photos.map((photo) => (
-            <div
-              key={photo.id}
-              className="absolute cursor-pointer group transition-all duration-500 ease-out
-                         w-40 h-32 
-                         sm:w-48 sm:h-36 
-                         md:w-56 md:h-40 
-                         lg:w-64 lg:h-48 
-                         xl:w-72 xl:h-52"
-              style={photo.style}
-              onMouseEnter={() => setHoveredPhoto(photo.id)}
-              onMouseLeave={() => setHoveredPhoto(null)}
-            >
-              <div 
-                className={`relative w-full h-full bg-white shadow-xl transition-all duration-500 transform
-                           ${hoveredPhoto === photo.id 
-                             ? 'scale-110 shadow-2xl rotate-0 z-50' 
-                             : 'hover:scale-105 hover:shadow-2xl'
-                           }
-                           ${hoveredPhoto && hoveredPhoto !== photo.id ? 'opacity-75' : 'opacity-100'}`}
-                style={{
-                  padding: "8px 8px 24px 8px", // Polaroid-style padding with extra bottom space
-                  zIndex: hoveredPhoto === photo.id ? 50 : photo.style.zIndex
-                }}
-              >
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  className="w-full h-full object-cover rounded-sm"
-                  loading="lazy"
-                />
-                
-                {/* Polaroid-style bottom label area */}
-                <div className="absolute bottom-2 left-2 right-2 h-4 flex items-center justify-center">
-                  <div className="w-full h-0.5 bg-gray-200"></div>
-                </div>
-                
-                {/* Hover overlay with description */}
-                <div className={`absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 transition-opacity duration-300 rounded-sm
-                               ${hoveredPhoto === photo.id ? 'opacity-100' : 'opacity-0'}`}>
-                  <p className="text-white text-sm md:text-base font-medium text-center leading-tight">
-                    {photo.alt}
-                  </p>
-                </div>
-              </div>
+        {/* Loading State */}
+        {loading ? (
+          <div className="flex justify-center items-center h-96">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-yellow-500"></div>
+          </div>
+        ) : (
+          <>
+            {/* Parallax Scroll Gallery */}
+            <ParallaxScroll images={galleryImages} className="h-[60rem]" />
+            
+            {/* Gallery Info */}
+            <div className="text-center mt-8">
+              <p className="text-gray-500 text-sm">
+                Displaying {galleryImages.length} images from our gallery collection
+              </p>
             </div>
-          ))}
-        </div>
+          </>
+        )}
 
         {/* Enhanced Call to Action */}
         <div className="text-center mt-16">
@@ -2014,14 +2153,14 @@ const Gallery: React.FC = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
-              className="bg-gradient-to-r from-teal-500 to-blue-600 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-semibold text-lg"
+              className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-8 py-4 rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-semibold text-lg"
               onClick={() => {
                 window.location.hash = "destinations";
               }}
             >
               Book Your Adventure
             </button>
-            <button className="border-2 border-teal-500 text-teal-600 px-8 py-4 rounded-full hover:bg-teal-500 hover:text-white transition-all duration-300 font-semibold text-lg">
+            <button className="border-2 border-yellow-500 text-yellow-600 px-8 py-4 rounded-full hover:bg-yellow-500 hover:text-black transition-all duration-300 font-semibold text-lg">
               View More Photos
             </button>
           </div>
@@ -2030,19 +2169,19 @@ const Gallery: React.FC = () => {
         {/* Statistics */}
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <h3 className="text-3xl font-bold text-teal-600 mb-2">1000+</h3>
+            <h3 className="text-3xl font-bold text-yellow-600 mb-2">1000+</h3>
             <p className="text-gray-600">Photos Captured</p>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <h3 className="text-3xl font-bold text-teal-600 mb-2">1000+</h3>
+            <h3 className="text-3xl font-bold text-yellow-600 mb-2">1000+</h3>
             <p className="text-gray-600">Happy Memories</p>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <h3 className="text-3xl font-bold text-teal-600 mb-2">30+</h3>
+            <h3 className="text-3xl font-bold text-yellow-600 mb-2">30+</h3>
             <p className="text-gray-600">Locations Visited</p>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-lg">
-            <h3 className="text-3xl font-bold text-teal-600 mb-2">50+</h3>
+            <h3 className="text-3xl font-bold text-yellow-600 mb-2">50+</h3>
             <p className="text-gray-600">Tour Groups</p>
           </div>
         </div>
@@ -2052,7 +2191,6 @@ const Gallery: React.FC = () => {
 };
 
 
-// const Gallery = () => {
 //   const photos = [
 //     {
 //       id: 1,
@@ -2208,22 +2346,22 @@ const Reviews: React.FC = () => {
   const reviews: Review[] = [
     {
       id: 1,
-      name: "Emily Johnson",
-      location: "New York, USA",
+      name: "Marie Dubois",
+      location: "Paris, France 🇫🇷",
       tourPackage: "12 Days Nature & Wildlife Tour",
-      text: "Absolutely breathtaking experience! The Knuckles Mountain Range was incredible, and seeing elephants at Udawalawe was magical. Our guide was knowledgeable and the accommodations were perfect. Sri Lanka exceeded all expectations!",
+      text: "We hired Jeewaka for our entire trip to Sri Lanka, and he exceeded our expectations. He was always on time, helped us with our luggage, and even recommended some amazing hidden gems that weren't in our itinerary. His vehicle was clean and comfortable, and he drove safely and smoothly. We're so grateful for his services!",
       rating: 5,
-      avatar: "https://images.unsplash.com/photo-1501594907352-0f8b1c3d4c5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b47c?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
       tourImage: "/img/gallery/6.jpg",
       date: "March 2025",
       verified: true
     },
     {
       id: 2,
-      name: "James Wilson",
-      location: "London, UK",
+      name: "James Mitchell",
+      location: "Sydney, Australia 🇦🇺",
       tourPackage: "10 Days Cultural Heritage Tour",
-      text: "The cultural tour was phenomenal! Sigiriya Rock Fortress at sunrise was unforgettable. The ancient cities of Anuradhapura and Polonnaruwa were fascinating. Great value for money and excellent organization throughout.",
+      text: "Our guide was absolutely fantastic! He was punctual, professional, and knowledgeable about all the attractions we visited. His friendly and courteous demeanor made our trip to Sri Lanka truly unforgettable. Highly recommend!",
       rating: 5,
       avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
       tourImage: "/img/gallery/10.jpg",
@@ -2232,10 +2370,10 @@ const Reviews: React.FC = () => {
     },
     {
       id: 3,
-      name: "Sarah Martinez",
-      location: "Toronto, Canada",
+      name: "Emily Thompson",
+      location: "London, UK 🇬🇧",
       tourPackage: "14 Days Complete Experience",
-      text: "This comprehensive tour covered everything! From wildlife safaris to beach relaxation in Bentota. The tea plantations in Nuwara Eliya were stunning. Professional team and seamless planning made this trip memorable.",
+      text: "Jeewaka was an absolute delight! His professionalism, knowledge, and friendly demeanor made our Sri Lankan journey truly unforgettable. He was punctual, courteous, and expertly navigated the roads, ensuring our safety and comfort at all times. What impressed us most was his passion for Sri Lanka and its culture, which he shared with us through engaging stories and insightful recommendations. We highly recommend Wander Lens Tours to anyone traveling to Sri Lanka - he's a true gem and a fantastic ambassador for the country.",
       rating: 5,
       avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
       tourImage: "/img/gallery/12.jpg",
@@ -2244,52 +2382,40 @@ const Reviews: React.FC = () => {
     },
     {
       id: 4,
-      name: "Michael Chen",
-      location: "Sydney, Australia",
+      name: "Marco Rossi",
+      location: "Rome, Italy 🇮🇹",
       tourPackage: "Premium Safari Experience",
-      text: "Incredible safari experience! We spotted leopards at Yala National Park and the elephant gathering at Minneriya was spectacular. The river safari at Bentota was a perfect end to our adventure. Highly recommended!",
+      text: "Absolutely phenomenal experience! Jeewaka's expertise in wildlife spotting was incredible - we saw leopards at Wilpattu and a massive elephant gathering at Minneriya. His deep knowledge of Sri Lankan history and culture added so much depth to our journey. The vehicle was comfortable for long drives, and he always ensured we had the best photo opportunities. Grazie mille for making our Sri Lankan safari dreams come true!",
       rating: 5,
       avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
       tourImage: "/img/gallery/13.jpg",
+      date: "April 2025",
+      verified: true
+    },
+    {
+      id: 5,
+      name: "Sarah Williams",
+      location: "New York, USA 🇺🇸",
+      tourPackage: "Beach Relaxation Tour",
+      text: "From the moment we landed in Colombo, Jeewaka made us feel like VIPs! His recommendations for hidden beach spots and local restaurants were spot-on. We loved how he balanced our itinerary perfectly - relaxation time on pristine beaches and cultural experiences at ancient temples. His English was excellent, and he shared fascinating stories about Sri Lankan traditions. This was our best vacation ever!",
+      rating: 5,
+      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+      tourImage: "/img/gallery/8.jpg",
       date: "March 2025",
       verified: true
     },
-    // {
-    //   id: 5,
-    //   name: "Lisa Thompson",
-    //   location: "Vancouver, Canada",
-    //   tourPackage: "12 Days Nature & Wildlife Tour",
-    //   text: "Amazing honeymoon trip! Adam's Peak hike was challenging but rewarding. The Nine Arch Bridge in Ella was picture-perfect. Whale watching in Mirissa was the highlight. Thank you for making our special trip unforgettable!",
-    //   rating: 5,
-    //   avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-    //   tourImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-    //   date: "February 2025",
-    //   verified: true
-    // },
-    // {
-    //   id: 6,
-    //   name: "David Brown",
-    //   location: "Manchester, UK",
-    //   tourPackage: "10 Days Cultural Heritage Tour",
-    //   text: "Excellent cultural immersion! The Temple of the Tooth in Kandy was deeply spiritual. Dambulla Cave Temple's ancient paintings were mesmerizing. Our guide's knowledge of Sri Lankan history enriched every visit.",
-    //   rating: 5,
-    //   avatar: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-    //   tourImage: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-    //   date: "January 2025",
-    //   verified: true
-    // },
-    // {
-    //   id: 7,
-    //   name: "Anna Schmidt",
-    //   location: "Berlin, Germany",
-    //   tourPackage: "14 Days Complete Experience",
-    //   text: "Perfectly planned adventure! Every destination was unique - from the wild beauty of Wilpattu to the golden beaches of Tangalle. The local cuisine experiences were delightful. Will definitely return to Sri Lanka!",
-    //   rating: 5,
-    //   avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-    //   tourImage: "https://images.unsplash.com/photo-1566552881560-0be862a7c445?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-    //   date: "March 2025",
-    //   verified: true
-    // }
+    {
+      id: 6,
+      name: "Lucas Dubois",
+      location: "Lyon, France 🇫🇷",
+      tourPackage: "Southern Delights Tour",
+      text: "Magnifique! Jeewaka's attention to detail was remarkable. He remembered our dietary preferences, our photography interests, and even our preferred wake-up times. The southern coast tour was perfectly paced - from the historic Galle Fort to the stunning beaches of Mirissa. His vehicle had excellent air conditioning, which was a blessing in the tropical heat. We felt completely safe and well-cared for throughout our journey.",
+      rating: 5,
+      avatar: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+      tourImage: "/img/gallery/7.jpg",
+      date: "February 2025",
+      verified: true
+    }
   ];
 
   // Auto-scroll functionality
